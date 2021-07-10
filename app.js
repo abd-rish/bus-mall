@@ -36,6 +36,24 @@ let products = [
     new Product('wine-glass', 'img/wine-glass.jpg'),
 ];
 
+function saveProductsToLocalStorage() {
+    let jsonProducts = JSON.stringify(products);
+    localStorage.setItem("products", jsonProducts);
+  }
+
+function updateProducts() {
+    let savedProducts = localStorage.getItem("products");
+    if (savedProducts !== undefined && savedProducts != null && savedProducts.length > 0) {
+        let jsonProducts = JSON.parse(savedProducts);
+        for(let i = 0; i < products.length; i++) {
+            products[i].showCnt = jsonProducts[i].showCnt;
+            products[i].clickCnt = jsonProducts[i].clickCnt;
+        }
+    }
+}
+
+updateProducts();
+
 function reShowImgs() {
     let pr1 = products[Math.floor(Math.random() * products.length)];
     let pr2 = products[Math.floor(Math.random() * products.length)];
@@ -124,6 +142,8 @@ function vewResults() {
 
     results.style.display = 'inline-block';
     document.getElementById('charts').style.display='inline-block';
+
+    saveProductsToLocalStorage();
 }
 
 function buildChartResults() {
